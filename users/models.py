@@ -1,3 +1,10 @@
 from django.db import models
+from core.models import TimeStampModel
 
-# Create your models here.
+class User(TimeStampModel):
+    name      = models.CharField(max_length = 16)
+    email     = models.CharField(max_length = 128, unique = True)
+    password  = models.CharField(max_length = 256)
+
+    class Meta:
+        db_table = 'users'
