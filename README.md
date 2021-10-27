@@ -159,8 +159,7 @@ POST "http://127.0.0.1:8000/posting HTTP/1.1" \
 
 
 - ## Response
-```
-{
+```{
     "results": {
         "count": 10,
         "data": [
