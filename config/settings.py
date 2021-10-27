@@ -27,15 +27,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'core',
-    'postings'
-    'users'
+    'postings',
+    'users',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -133,6 +133,7 @@ CORS_ALLOW_METHODS = (
     'PUT',
 )
 
+#만약 허용해야할 추가적인 헤더키가 있다면?(사용자정의 키) 여기에 추가하면 됩니다.
 CORS_ALLOW_HEADERS = (
     'accept',
     'accept-encoding',
@@ -143,5 +144,4 @@ CORS_ALLOW_HEADERS = (
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-		#만약 허용해야할 추가적인 헤더키가 있다면?(사용자정의 키) 여기에 추가하면 됩니다.
 )

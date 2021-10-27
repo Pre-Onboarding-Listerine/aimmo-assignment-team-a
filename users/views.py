@@ -20,10 +20,10 @@ class SignUpView(View):
             return JsonResponse({"MESSAGE" : "DUPLICATED EMAIL"}, status = 400)
 
         if not REGEX_EMAIL.match(data["email"]):
-            return JsonResponse({"MESSAGE":"EMAIL_ERROR"}, status = 400)
+            return JsonResponse({"MESSAGE":"WRONG EMAIL FOMAT"}, status = 400)
 
         if not REGEX_PASSWORD.match(data["password"]):
-            return JsonResponse({"MESSAGE" : "PASSWORD_ERROR"}, status = 400)
+            return JsonResponse({"MESSAGE" : "WRONG PASSWORD FOMAT"}, status = 400)
         
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
         decoded_password = hashed_password.decode("utf-8")
