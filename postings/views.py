@@ -6,13 +6,14 @@ from core.utils import authentication
 
 # from django.db.models import Q
 from postings.models import Posting
+from users.models import User
 
 
 class PostingsListView(View):
     def get(self, request):
         try:
             offset = int(request.GET.get('offset', 0))
-            limit  = int(request.GET.get('limit', 8))
+            limit  = int(request.GET.get('limit', 7))
             ordering = request.GET.get("ordering",'created_at')
            
             posts_query= Posting.objects.all().order_by(ordering)
@@ -45,12 +46,10 @@ class PostingView(View):
     @authentication
     def post(self, request):
         try:
-            data = json.load(request.body)
-
+            data = json.loads(request.body)
             user = request.user
             title = data["title"]
             content = data["content"]
-
             post = Posting.objects.create(
                     author  = user.name,
                     title   = title,
@@ -116,7 +115,7 @@ class PostingDeleteView(View):
     @authentication
     def delete(self, request):
         try:
-            data = json.laods(request.body)
+            data = json.loads(request.body)
             post_id = data["post_id"]
 
             if not Posting.objects.filter(id= post_id).exists():

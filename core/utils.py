@@ -16,7 +16,7 @@ def authentication(func):
             user_id = payload['id']
 
             user = User.objects.get(id = user_id)
-            request.user = user.id
+            request.user = user
 
         except exceptions.DecodeError:
             return JsonResponse( {'MESSAGE' : 'INVALID TOKEN'}, status = 403)
