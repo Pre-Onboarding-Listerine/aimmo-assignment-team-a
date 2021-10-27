@@ -3,6 +3,6 @@ from users.views import SignUpView, SignInView
 
 
 urlpatterns = [
-    path('/sign-up', SignUpView.as_view()),
-    path('/sign-in', SignInView.as_view()),
+    path('/signup', SignUpView.as_view()),
+    path('/signin', SignInView.as_view()),
 ]
