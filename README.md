@@ -25,6 +25,8 @@
 - conda activate (생성한 가상환경 이름) 가상환경 실행
 - git remote add origin https://github.com/Gouache-studio/Wanted.git
 - git clone https://github.com/Gouache-studio/Wanted.git
+- 실행방법
+- ```python manage.py runserver```
 
 ### 구현 방법
 ## endpoint 호출 및 실행
