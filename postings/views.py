@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from django.http.response import JsonResponse
 from core.utils import authentication
 
-from postings.models import Posting, Comment
+from postings.models import Posting, Comment, Category
 from users.models import User
 
 
@@ -18,7 +18,7 @@ class PostingsListView(View):
             search_keyword = request.GET.get("keyword", None)
             q = Q()
             if search_keyword:
-                q &= Q(name__icontains=search_keyword)
+                q &= Q(title__icontains=search_keyword)
             posts_query = Posting.objects.all().order_by(ordering)
             posts = posts_query[offset : offset + limit]
             posts_count = posts_query.count()
@@ -95,8 +95,18 @@ class PostingView(View):
             user = request.user
             title = data["title"]
             content = data["content"]
+            category = data["category"]
+            category = Category.objects.create(name=category)
+            # 중복 조회수는 세지않도록
+            # view_count =
             post = Posting.objects.create(
-                author=user.name, title=title, content=content, user=user
+                category_id=category.category_id,
+                title=title,
+                content=content,
+                author=user.name,
+                user=user
+                # view_count=
+                # users_ids=
             )
 
             result = {
@@ -160,32 +170,41 @@ class PostingView(View):
 
 class CommentView(View):
     @authentication
-    def post(self, request):
+    def post(self, request, **kwargs):
         try:
-            data = json.loads(request.body)
+            posting = Posting.objects.get(posting_id=kwargs["posting_id"])
+            print(posting)
             user = request.user
+            data = json.loads(request.body)
+            print(data)
+            print(user)
             author = user.name
+            print(author)
             content = data["content"]
-            posting_id = data["posting_id"]
-            depth = data["depth"]
-            bundle_id = data["bundle_id"]
-            bundle_order = data["bundle_order"]
+            print(content)
+            depth = int(data["depth"])
+            print(depth)
+            # 0 이면 원댓글, 1이면 대댓글
+            # if not depth == 0 or 1:
+            #     return JsonResponse({"MESSAGE": "depth must be Boolean"})
+
+            bundle_id = int(data["bundle_id"])
 
             comment = Comment.objects.create(
                 author=author,
                 content=content,
-                posting_id=posting_id,
+                posting_id=posting.posting_id,
                 depth=depth,
                 bundle_id=bundle_id,
-                bundle_order=bundle_order,
             )
+
+            print(comment)
             result = {
                 "author": comment.author,
                 "content": comment.content,
                 "posting_id": comment.posting_id,
                 "depth": comment.depth,
                 "bundle_id": comment.bundle_id,
-                "bundle_order": comment.bundle_order,
             }
 
             return JsonResponse(
