@@ -1,5 +1,7 @@
 # Wanted 프리온보딩 선발과제 
 
+## 첫번째 과제는 [Wiki](https://github.com/Pre-Onboarding-Listerine/aimmo-assignment-team-a/wiki) 에서 확인하실 수 있습니다. 
+
 <br>
 
 ### 유저인증, 인가
