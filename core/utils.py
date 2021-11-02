@@ -1,4 +1,4 @@
-from jwt import exceptions, decode
+import jwt
 
 from django.http import JsonResponse
 
@@ -12,19 +12,19 @@ def authentication(func):
             if not access_token:
                 return JsonResponse( {'MESSAGE' : 'NO TOKEN'}, status = 403)
 
-            payload = decode(access_token, SECRET_KEY, ALGORITHM)
+            payload = jwt.decode(access_token, SECRET_KEY, ALGORITHM)
             user_id = payload['id']
 
             user = User.objects.get(id = user_id)
             request.user = user
 
-        except exceptions.DecodeError:
+        except jwt.exceptions.DecodeError:
             return JsonResponse( {'MESSAGE' : 'INVALID TOKEN'}, status = 403)
 
         except User.DoesNotExist:
             return JsonResponse( {'MESSAGE' : 'INVALID USER'}, status = 403)
 
-        except exceptions.ExpiredSignatureError:
+        except jwt.exceptions.ExpiredSignatureError:
             return JsonResponse( {'MESSAGE' : 'TOKEN EXPIRED'}, status = 400)
 
         return func(self, request, *args, **kwargs)
