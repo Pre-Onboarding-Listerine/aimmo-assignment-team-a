@@ -8,31 +8,31 @@ class Category(models.Model):
     name = models.CharField(max_length=32)
 
     class Meta:
-        db_table = 'categories'
+        db_table = "categories"
 
 
 class Posting(TimeStampModel):
-    post_id = models.AutoField(primary_key=True, null=False)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    posting_id = models.AutoField(primary_key=True, null=False)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
     content = models.TextField()
     author = models.CharField(max_length=64)
-    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
     view_count = models.IntegerField()
     user_ids = models.TextField()
 
     class Meta:
-        db_table = 'postings'
+        db_table = "postings"
 
 
 class Comment(TimeStampModel):
     comment_id = models.AutoField(primary_key=True, null=False)
     author = models.CharField(max_length=64)
     content = models.TextField()
-    post = models.ForeignKey('Posting', on_delete=models.CASCADE)
+    posting = models.ForeignKey("Posting", on_delete=models.CASCADE)
     depth = models.BooleanField()
     bundle_id = models.IntegerField()
-    bundle_order = models.DateTimeField()
+    bundle_order = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'comments'
+        db_table = "comments"
